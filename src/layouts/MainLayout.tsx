@@ -1,8 +1,8 @@
 import React from 'react'
 import { Header } from '../Components/Header'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
-export const MainLayout = () => {
+export const MainLayout:React.FC = () => {
 	return (
 		<div className='wrapper'>
 			<Header />
