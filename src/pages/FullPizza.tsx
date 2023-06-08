@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import * as React from 'react'
 export const FullPizza: React.FC = () => {
@@ -28,10 +28,15 @@ export const FullPizza: React.FC = () => {
 		return <>Loader...</>
 	}
 	return (
-		<div className='container'>
+		<div className="container">
 			<img src={pizza.imageUrl} />
 			<h2>{pizza.title}</h2>
-			<h4>{pizza.price}₽</h4>
+			<h4>{pizza.price} ₽</h4>
+			<Link to="/">
+				<button className="button button--outline button--add">
+					<span>Назад</span>
+				</button>
+			</Link>
 		</div>
-	)
-}
+	);
+};
