@@ -24,7 +24,7 @@ export const SortPopup:React.FC<SortPopupProps> = React.memo(({value}) => {
 
 		const [open, setOpen] = useState(false)
 
-		const onClickListItem = (obj:any) => {
+		const onClickListItem = (obj:Sort) => {
 			dispatch(setSortItems(obj))
 			setOpen(false)
 		}

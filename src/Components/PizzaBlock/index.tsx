@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { selectCartItemsId } from '../../Redux/slices/cart/selector'
 import { CartItems } from '../../Redux/slices/cart/types'
 import { addItems } from '../../Redux/slices/cart/slice'
-type PizzaBlockType={
+export type PizzaBlockType={
 	id:string,
 	name:string,
 	imageUrl:string,

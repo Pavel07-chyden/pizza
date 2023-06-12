@@ -3,7 +3,7 @@ import React from 'react'
 import { Categories } from '../Components/Categories'
 import { SortPopup } from '../Components/SortsPopup'
 import { Skeleton } from '../Components/PizzaBlock/Skeleton'
-import { PizzaBlock } from '../Components/PizzaBlock'
+import { PizzaBlock, PizzaBlockType } from '../Components/PizzaBlock'
 import { Pagination } from '../Components/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -11,6 +11,8 @@ import { selectFilter, selectSortFilter } from '../Redux/slices/filter/selector'
 import { selectPizzaData } from '../Redux/slices/pizza/selector'
 import { setCategoryId, setCurrentPage } from '../Redux/slices/filter/slice'
 import { axiosPizzas } from '../Redux/slices/pizza/slice'
+import { Status } from '../Redux/slices/pizza/types'
+import { AnyAction } from '@reduxjs/toolkit'
 export const Home = () => {
 	const dispatch = useDispatch()
 	const { categoryId, currentPage, searchValue,sort } = useSelector(selectFilter)
@@ -22,42 +24,19 @@ export const Home = () => {
 	const onCahngePage = (page:number) => {
 		dispatch(setCurrentPage(page))
 	}
-	/*React.useEffect(() => {
-		if (window.location.search) {
-			const params = (qs.parse(window.location.search.substring(1)) as unknown) as  SearchPizzaParams
-			const sort = sortList.find(obj => obj.sortProperty === params.sortBy)
-			dispatch(setFilter({
-				         searchValue: params.search,
-				         categoryId: Number(params.category),
-				         currentPage: Number(params.currentPage),
-				         sort: sort || sortList[0],
-			}))
-		}
-	}, [])
-	*/
-	/*React.useEffect(() => {
-	const queryString = qs.stringify({
-		sortType,
-		categoryId,
-		currentPage
-	})
-	navigate(`?${queryString}`)
-}, [categoryId, sortType, currentPage])
- */
 	const getAPI = async () => {
 		const sortBy = sortType.replace('-', '')
 		const order = sortType.includes('-') ? 'asc' : 'desc'
 		const category = categoryId > 0 ? `category=${categoryId}` : ''
 		const search = searchValue ? `&search=${searchValue}` : ''
 		dispatch(
-			//@ts-ignore
 			axiosPizzas({
 				sortBy,
 				order,
 				category,
 				search,
 				currentPage: String(currentPage)
-			})
+			})as unknown as AnyAction
 		)
 	}
 	React.useEffect(() => {
@@ -67,7 +46,7 @@ export const Home = () => {
 
 
 	const pizzas = items
-		.map((el:any) => (
+		.map((el:PizzaBlockType) => (
 				<PizzaBlock key={el.id}  {...el} />
 		))
 
@@ -80,7 +59,7 @@ export const Home = () => {
 				<SortPopup value={sort} />
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
-			{status === 'error' ? (
+			{status === Status.ERROR ? (
 				<div className='content__error-info'>
 					<h2>
 						Произошла ошибка <span>😕</span>
@@ -89,7 +68,7 @@ export const Home = () => {
 				</div>
 			) : (
 				<div className='content__items'>
-					{status === 'loading' ? skeletons : pizzas}
+					{status === Status.LOADING ? skeletons : pizzas}
 				</div>
 			)}
 			<Pagination currentPage={currentPage} onChange={onCahngePage} />

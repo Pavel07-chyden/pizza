@@ -15,7 +15,7 @@ export enum Status {
 }
 export interface PizzaSliceState{
 	items:Pizza[],
-	status: 'success' | 'error' | 'loading'
+	status: Status.SUCCESS | Status.ERROR | Status.LOADING
 }
 export type SearchPizzaParams ={
 	sortBy:string, order:string, category:string, search:string, currentPage:string
